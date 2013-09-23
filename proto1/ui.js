@@ -32,10 +32,10 @@
 		alert("TODO");
 	}
 	socket.on("connect", function () {
-		console.log("connect");
+		//console.log("connect");
 	});
 	socket.on("disconnect", function () {
-		console.log("disconnect");
+		//console.log("disconnect");
 	});
 	socket.on("join", function (data) {
 		var msgP = document.createElement("p");
