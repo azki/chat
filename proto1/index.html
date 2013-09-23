@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>socket.io test</title>
+	<script src="http://domain0.azki.org:12345/io.js">/*global io4chat*/</script>
+</head>
+<body>
+	<script>
+var socket = io4chat.connect("http://domain1.azki.org:12345/socket");
+socket.on("connect", function () {
+	console.log("connect");
+	socket.emit("hi", "hi");
+});
+socket.on("disconnect", function () {
+	console.log("disconnect");
+});
+socket.on("hello", function (data) {
+	console.log("hello", data);
+});
+socket.on("hi", function (data) {
+	console.log("hi", data);
+});
+	</script>
+</body>
+</html>
