@@ -9,7 +9,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server, {
 	log: true
 });
-server.listen(12345);
+server.listen(8080);
 app.get('/', function(req, res) {
 	res.header('Content-Type', 'text/html');
 	fs.readFile(__dirname + '/index.html', function(err, data) {
@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 });
 app.get('/chat.js', function(req, res) {
 	res.header('Content-Type', 'application/x-javascript');
-	fs.readFile(__dirname + '/io.js', function(err, data1) {
+	fs.readFile(__dirname + '/io.min.js', function(err, data1) {
 		if (err) {
 			console.log('cannot read io.js file', err);
 			res.writeHead(500);
@@ -59,6 +59,7 @@ function broadcast(name, value) {
 
 io.of('/chat').on('connection', function(socket) {
 	var sockId = socket.id, addr = socket.handshake.address.address;
+	console.log(new Date());
 	console.log('onconnection', sockId);
 	console.log('socket.handshake:', socket.handshake);
 	socketMap[sockId] = socket;
@@ -66,6 +67,7 @@ io.of('/chat').on('connection', function(socket) {
 		writer: addr
 	});
 	socket.on('disconnect', function() {
+		console.log(new Date());
 		console.log('ondisconnect', sockId);
 		delete socketMap[sockId];
 		broadcast('leave', {
