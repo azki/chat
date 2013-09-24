@@ -7,70 +7,77 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, {
-    log: true
+	log: true
 });
 server.listen(12345);
-app.get('/', function(req, res){
-    res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.header('Pragma', 'no-cache');
-    res.header('Expires', '0');
-    res.header('Content-Type', 'text/html');
-    fs.readFile(__dirname + '/index.html', function(err, data){
-        if (err) {
-            console.log('cannot read html file', err);
-            return;
-        }
-        res.end(data);
-    });
+app.get('/', function(req, res) {
+	res.header('Content-Type', 'text/html');
+	fs.readFile(__dirname + '/index.html', function(err, data) {
+		if (err) {
+			console.log('Error loading index.html', err);
+			res.writeHead(500);
+			return res.end('Error loading index.html');
+		}
+		res.writeHead(200);
+		res.end(data);
+	});
 });
-app.get('/chat.js', function(req, res){
-    res.header('Content-Type', 'application/x-javascript');
-    fs.readFile(__dirname + '/io.js', function(err, data1){
-        if (err) {
-            console.log('cannot read io.js file', err);
-            return;
-        }
-        fs.readFile(__dirname + '/ui.js', function(err, data2){
-            if (err) {
-                console.log('cannot read ui.js file', err);
-                return;
-            }
-            res.send([data1, data2].join("\n"));
-        });
-    });
+app.get('/chat.js', function(req, res) {
+	res.header('Content-Type', 'application/x-javascript');
+	fs.readFile(__dirname + '/io.js', function(err, data1) {
+		if (err) {
+			console.log('cannot read io.js file', err);
+			res.writeHead(500);
+			return res.end('Error loading chat.js');
+		}
+		fs.readFile(__dirname + '/ui.js', function(err, data2) {
+			if (err) {
+				console.log('cannot read ui.js file', err);
+				res.writeHead(500);
+				return res.end('Error loading chat.js');
+			}
+			res.writeHead(200);
+			res.end([data1, data2].join("\n"));
+		});
+	});
 });
 
 var socketMap = {};
 
-function broadcast(name, value){
-    for (var id in socketMap) {
-        if (socketMap.hasOwnProperty(id)) {
-            try {
-                socketMap[id].emit(name, value);
-            } 
-            catch (err) {
-                console.error("webSockets emit error", err);
-            }
-        }
-    }
+function broadcast(name, value) {
+	for (var id in socketMap) {
+		if (socketMap.hasOwnProperty(id)) {
+			try {
+				socketMap[id].emit(name, value);
+			} 
+			catch (err) {
+				console.error("webSockets emit error", err);
+			}
+		}
+	}
 }
 
-io.of('/chat').on('connection', function(socket){
-    var sockId = socket.id, addr = socket.handshake.address.address;
-    socketMap[sockId] = socket;
-    broadcast('join', {
-        writer: addr
-    });
-    socket.on('msg', function(msg){
-        broadcast('msg', {
-            writer: addr,
-            text: msg.text
-        });
-    });
-    socket.on('disconnect', function(){
-        delete socketMap[sockId];
-        broadcast('leave', {
-            writer: addr
-        });
-    });
+io.of('/chat').on('connection', function(socket) {
+	var sockId = socket.id, addr = socket.handshake.address.address;
+	console.log('onconnection', sockId);
+	console.log('socket.handshake:', socket.handshake);
+	socketMap[sockId] = socket;
+	broadcast('join', {
+		writer: addr
+	});
+	socket.on('disconnect', function() {
+		console.log('ondisconnect', sockId);
+		delete socketMap[sockId];
+		broadcast('leave', {
+			writer: addr
+		});
+	});
+	
+	socket.on('msg', function(msg) {
+		if (!msg) { return; }
+		broadcast('msg', {
+			writer: addr,
+			text: msg.text
+		});
+	});
 });
