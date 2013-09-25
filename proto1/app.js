@@ -1,6 +1,7 @@
 /*jslint regexp:false,nomen:false,white:false*/
 /*global exports,require,process,__dirname*/
 
+var request = require("request");
 var fs = require('fs');
 var express = require('express');
 var app = express();
@@ -24,7 +25,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/chat.js', function(req, res) {
-	var user = "id" + req.query.user;
+	var user = req.query.user ? req.query.user : "-1";
 	res.header('Content-Type', 'application/x-javascript');
 	fs.readFile(__dirname + '/io.min.js', function(err, data1) {
 		if (err) {
@@ -59,7 +60,7 @@ function broadcast(name, value) {
 }
 
 io.of('/chat').on('connection', function(socket) {
-	var sockId = socket.id, addr = socket.handshake.address.address;
+	var userName, sockId = socket.id, addr = socket.handshake.address.address;
 	console.log(new Date());
 	console.log('onconnection', sockId);
 	console.log('socket.handshake:', socket.handshake);
@@ -70,7 +71,7 @@ io.of('/chat').on('connection', function(socket) {
 		console.log('ondisconnect', sockId);
 		delete socketMap[sockId];
 		broadcast('leave', {
-			writer: addr
+			writer: userName || addr
 		});
 	});
 	
@@ -78,9 +79,15 @@ io.of('/chat').on('connection', function(socket) {
 		if (!msg) {
 			return;
 		}
-		addr = msg.user;
-		broadcast('join', {
-			writer: addr
+		var userKey = msg.user;
+		request("http://gkswhdqls002.cafe24.com/?module=chat&act=getMemberName&user=" + userKey, function(err, res, body) {
+			try {
+				var userData = JSON.parse(body);
+				userName = userData.name;
+			} catch (ignore) {}
+			broadcast('join', {
+				writer: userName || addr
+			});
 		});
 	});
 	
@@ -89,7 +96,7 @@ io.of('/chat').on('connection', function(socket) {
 			return;
 		}
 		broadcast('msg', {
-			writer: addr,
+			writer: userName || addr,
 			text: msg.text
 		});
 	});
