@@ -22,7 +22,9 @@ app.get('/', function(req, res) {
 		res.end(data);
 	});
 });
+
 app.get('/chat.js', function(req, res) {
+	var user = req.query.user;
 	res.header('Content-Type', 'application/x-javascript');
 	fs.readFile(__dirname + '/io.min.js', function(err, data1) {
 		if (err) {
@@ -37,7 +39,7 @@ app.get('/chat.js', function(req, res) {
 				return res.end('Error loading chat.js');
 			}
 			res.writeHead(200);
-			res.end([data1, data2].join("\n"));
+			res.end([data1, data2.replace("${user}", user)].join("\n"));
 		});
 	});
 });
@@ -49,8 +51,7 @@ function broadcast(name, value) {
 		if (socketMap.hasOwnProperty(id)) {
 			try {
 				socketMap[id].emit(name, value);
-			} 
-			catch (err) {
+			} catch (err) {
 				console.error("webSockets emit error", err);
 			}
 		}
@@ -63,9 +64,7 @@ io.of('/chat').on('connection', function(socket) {
 	console.log('onconnection', sockId);
 	console.log('socket.handshake:', socket.handshake);
 	socketMap[sockId] = socket;
-	broadcast('join', {
-		writer: addr
-	});
+	
 	socket.on('disconnect', function() {
 		console.log(new Date());
 		console.log('ondisconnect', sockId);
@@ -75,8 +74,20 @@ io.of('/chat').on('connection', function(socket) {
 		});
 	});
 	
+	socket.on('join', function(msg) {
+		if (!msg) {
+			return;
+		}
+		addr = msg.user;
+		broadcast('join', {
+			writer: addr
+		});
+	});
+	
 	socket.on('msg', function(msg) {
-		if (!msg) { return; }
+		if (!msg) {
+			return;
+		}
 		broadcast('msg', {
 			writer: addr,
 			text: msg.text
