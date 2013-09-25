@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/chat.js', function(req, res) {
-	var user = req.query.user;
+	var user = "id" + req.query.user;
 	res.header('Content-Type', 'application/x-javascript');
 	fs.readFile(__dirname + '/io.min.js', function(err, data1) {
 		if (err) {
@@ -39,7 +39,7 @@ app.get('/chat.js', function(req, res) {
 				return res.end('Error loading chat.js');
 			}
 			res.writeHead(200);
-			res.end([data1, data2.replace("${user}", user)].join("\n"));
+			res.end([data1, data2.toString().replace("${user}", user)].join("\n"));
 		});
 	});
 });
