@@ -63,15 +63,15 @@ chat.init = function () {
 		chat.userInfo.isChief = false;
 		$('#roomForm').removeAttr('style');
 		$('#title').val('');
-		$('[data-roomUpdate]').attr('data-roomUpdate', 'make').attr('value' , 'make');
+		$('[data-roomupdate]').attr('data-roomupdate', 'make').attr('value', 'make');
 	});
 	
 	$('#cancle').click(function () {
 		$('#roomForm').css('display', 'none');
 	});
 	
-	$('[data-roomUpdate]').click(function () {
-		var flag = $(this).attr('data-roomUpdate'),
+	$('[data-roomupdate]').click(function () {
+		var flag = $(this).attr('data-roomupdate'),
 			makeRoomInformation = {
 				title : $('#title').val(),
 				maximumNumber : $('#maximumNumber option:selected').val(),
@@ -79,7 +79,7 @@ chat.init = function () {
 				password : $('#password').val(),
 				chiefId : localStorage.id
 			};
-		if(flag === 'make') {
+		if (flag === 'make') {
 			chat.socket.send('makeRoom', makeRoomInformation);	
 		} else {
 			chat.socket.send('changeRoomInfo', makeRoomInformation);
@@ -96,16 +96,13 @@ chat.init = function () {
 			$('#password').attr("disabled", 'disabled');
 		}
 	});
-	$('#currentRoomTitle').delegate('#changeRoomInfo', 'click', function (){
+	$('#currentRoomTitle').delegate('#changeRoomInfo', 'click', function () {
 		chat.socket.send('getRoomInfo');
 	});
 	
 	$('#member').delegate('[data-event=out]', 'click', function () {
 		var userId = $(this).text();
-		console.log(userId);
-		console.log(chat.userInfo.id);
-		console.log(chat.userInfo.isChief);
-		if(chat.userInfo.isChief && chat.userInfo.id != userId && confirm(userId + "를 강퇴하시겠습니까?")) {
+		if (chat.userInfo.isChief && chat.userInfo.id !== userId && confirm(userId + "를 강퇴하시겠습니까?")) {
 			chat.socket.send('out', {
 				target : userId 
 			});
@@ -125,9 +122,9 @@ chat.socket = (function () {
 		send('saveUserInformation', localStorage.id);
 		send('showAllRoomInformation');
 		
-		socket.on('getRoomInfo', function (result){
+		socket.on('getRoomInfo', function (result) {
 			$('#title').val(result.title);
-			$('[data-roomUpdate]').attr('data-roomUpdate', 'change').attr('value' , 'change');
+			$('[data-roomupdate]').attr('data-roomupdate', 'change').attr('value', 'change');
 			$('#roomForm').removeAttr('style');
 			
 		}); 
@@ -149,7 +146,7 @@ chat.socket = (function () {
 		});
 		
 		socket.on('changeRoomInfo', function (result) {
-			if(result.success) {
+			if (result.success) {
 				$('#currentRoomTitle').text(result.title);
 				if (result.isChief) {
 					alert('수정완료하였습니다.');
@@ -234,7 +231,7 @@ chat.socket = (function () {
 			if (result.flag === 'remove') {
 				$('#' + result.userId).remove();
 			} else if (result.flag === 'append') {
-				member += '<p id='+ result.userId +' data-event="out">' + result.userId + '</p>';
+				member += '<p id=' + result.userId + ' data-event="out">' + result.userId + '</p>';
 				$('#member').append(member);
 			}
 		});

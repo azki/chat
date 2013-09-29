@@ -1,25 +1,24 @@
-/*
- * GET home page.
- */
+/*global require, exports */
+
 var socket = require('../socket/socket.js');
 
-exports.index = function(req, res) {
+exports.index = function (req, res) {
 	res.render('index.html');
 };
 
-exports.test = function(req, res) {
+exports.test = function (req, res) {
 	res.render('chat/test.html');
 };
 
-exports.chat = function(req, res) {
+exports.chat = function (req, res) {
 	res.render('chat/index.html');
 };
 
-exports.makeRoom = function(req, res) {
+exports.makeRoom = function (req, res) {
 	res.render('chat/makeRoom.html');
 };
 
-exports.checkId = function(req, res) {
+exports.checkId = function (req, res) {
 	if (!socket.connectUsers[req.query.id]) {
 		res.send(true);
 	} else {
@@ -27,6 +26,6 @@ exports.checkId = function(req, res) {
 	}
 };
 
-exports.joinRoom = function(req, res) {
+exports.joinRoom = function (req, res) {
 	res.render('chat/chat.html');
 }; 

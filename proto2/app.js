@@ -1,6 +1,6 @@
-/**
- * Module dependencies.
- */
+/*global exports require */
+
+//디렉토리 __dirname 오류가나는 것을 막지못하겠다.. 어떻게해야하지...?
 
 var express = require('express'), 
     routes = require('./routes'), 
@@ -15,7 +15,7 @@ var express = require('express'),
 socket.init(server);
 
 //express관련 정의
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/views'); 
 app.set('view engine', 'ejs');
 var ejs = require('ejs');
 app.engine('.html', ejs.__express);
@@ -29,7 +29,7 @@ app.use(app.router);
 app.use(express.static(__dirname + '/public'));
 
 //개발 정의
-app.configure('development', function() {
+app.configure('development', function () {
 	app.use(express.errorHandler());
 });
 
@@ -49,6 +49,6 @@ app.get('/cancle', routes.roomChat);
 app.get('/make', routes.make);
 app.get('/joinRoom', routes.joinRoom);
 
-server.listen(3000, function() {
+server.listen(3000, function () {
 	console.log("Express server listening on port 3000 ");
 });

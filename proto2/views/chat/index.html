@@ -1,4 +1,4 @@
-
+/*global chat */
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@
 						<td colspan="4" id="currentRoomTitle"></td>
 					</tr>
 					<tr>
-						<td colspan="2"  height="300"><div id="messageBox" style="overflow-y:auto; width:100%; height:100%; padding:4px"></td>
+						<!-- <td colspan="2"  height="300"><div id="messageBox" style="overflow-y:auto; width:100%; height:100%; padding:4px"></td> -->
 						<td id="member"></td>
 						<td>
 						<div>
@@ -85,7 +85,7 @@
 							</td>
 						</tr>
 					</table>
-					<input type="button" value="make" data-roomUpdate="make" id="make"/>
+					<input type="button" value="make" data-roomupdate="make" id="make"/>
 					<input type="button" value="cancle" data-event="cancle" id="cancle"/>
 				</div>
 				
@@ -97,7 +97,7 @@
 				&copy; Copyright  by 한종빈
 			</p>
 		</div>
-		<script type="text/javascript">
+		<script type="javascript">
 			window.onload = function () {
 				chat.init();
 			};

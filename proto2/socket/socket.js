@@ -1,4 +1,4 @@
-/*global exports require*/
+/*global $, require, exports, io */
 
 // console.dir(io.sockets.clients('1'));
 // console.log(io.sockets.clients('1'));
@@ -13,7 +13,7 @@ exports.connectUsers = connectUsers;
 
 
 exports.init = function (server) {
-		io = require('socket.io').listen(server);
+	io = require('socket.io').listen(server);
 	
 	//socket.io의 로그 레벨 하양
 	io.set('log level', 2);
@@ -50,7 +50,7 @@ exports.init = function (server) {
 			connectUsers[id] = socket.id;
 			socket.userInfo = {
 				id : id,
-				enterRoom : '',
+				enterRoom : ''
 			};
 		});
 
@@ -102,11 +102,11 @@ exports.init = function (server) {
 		socket.on('changeRoomInfo', function (data) {
 			var enterRoom = socket.userInfo.enterRoom;
 			
-			if(data.maximumNumber < roomInfo[enterRoom].currentNumber) {
+			if (data.maximumNumber < roomInfo[enterRoom].currentNumber) {
 				response('changeRoomInfo', {
 					success : false
 				});
-				return ;
+				return;
 			}
 			
 			roomInfo[enterRoom].title = data.title;
@@ -124,8 +124,6 @@ exports.init = function (server) {
 			});
 			totalCast('showRoomInformation', roomInfo[enterRoom]); 
 		});
-		
-		//퇴장
 		
 		//방접속
 		socket.on('join', function (data) {
@@ -150,8 +148,7 @@ exports.init = function (server) {
 					}
 				}
 				
-				var members = io.sockets.clients(socket.userInfo.enterRoom),
-					member;
+				members = io.sockets.clients(socket.userInfo.enterRoom);
 				for (member in members) {
 					if (members.hasOwnProperty(member)) {
 						response('showMember', {
@@ -191,8 +188,8 @@ exports.init = function (server) {
 		
 		//방나가기 함수
 		function leaveRoom() {
-			if(socket.userInfo === undefined || socket.userInfo.enterRoom ==='' ) {
-				return ;
+			if (socket.userInfo === undefined || socket.userInfo.enterRoom === '') {
+				return;
 			}
 			socket.userInfo.outting = true; 
 			var roomInformation = roomInfo,
