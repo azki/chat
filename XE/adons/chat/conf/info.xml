@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.0.1">
+    <title xml:lang="ko">Chat</title>
+    <description xml:lang="ko">
+        Chat 에드
+    </description>
+    <version>0.0.1</version>
+    <date>2013-09-29</date>
+    <author email_address="stompesi@gmail.com" link="gkswhdqls002.cafe24.com">
+        <name xml:lang="ko">Chat</name>
+    </author>
+</addon>
