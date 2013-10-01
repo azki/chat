@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+    </grants>
+    <permissions>
+    	<permission action="dispChatAdminList" target="manager" />
+    	<permission action="procChatAdminInsert" target="manager" />
+    </permissions>
+    <actions>
+    	<action name="dispChatAdminList" type="view" admin_index="true" />
+        <action name="chat" type="view" />
+        <action name="getMemberName" type="view"/>
+        <action name="procChatAdminInsert" type="controller"/>
+    </actions>
+</module>

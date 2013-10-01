@@ -1,0 +1,8 @@
+<table name="chat">
+	<column name="chat_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="chat_key" type="varchar" size="200" />
+	<column name="width" type="number" size="4" />
+    <column name="height" type="number" size="4" />
+	<column name="top" type="number" size="4" />
+    <column name="left" type="number" size="4" />
+</table>

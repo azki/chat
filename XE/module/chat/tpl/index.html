@@ -1,0 +1,50 @@
+<!-- %import("filter/insert_chat_conn.xml") -->
+<!-- <include target="header.html"/> <!-- -->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_chat_conn)" >
+	<input type="hidden" name="chat_srl" value="1" />
+
+	<table cellspacing="0" >
+		<tr>
+			<th scope="row">{$lang->chat_key}<span>*</span></th><!-- 채팅 키 -->
+			<td>
+				<input type="text" name="chat_key" value="{$chat_info->chat_key?$chat_info->chat_key:''}" size="50" />
+				<p>{$lang->chat_key_explanation}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->width_size}<span >*</span></th><!-- 가로 크기 -->
+			<td>
+				<input type="text" name="width" value="{$chat_info->width?$chat_info->width:''}" maxlength="4" />
+				<p>{$lang->width_size_explanation}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->height_size}<span>*</span></th><!-- 세로 크기 -->
+			<td>
+				<input type="text" name="height" value="{$chat_info->height?$chat_info->height:''}" maxlength="4" />
+				<p>{$lang->height_size_explanation}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->top}<span >*</span></th><!-- 상단 위치 -->
+			<td>
+				<input type="text" name="top" value="{$chat_info->top?$chat_info->top:''}" maxlength="4" />
+				<p>{$lang->top_explanation}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->left}<span >*</span></th><!-- 측면 위치 -->
+			<td>
+				<input type="text" name="left" value="{$chat_info->left?$chat_info->left:''}" maxlength="4" />
+				<p>{$lang->left_explanation}</p>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" >
+				<span><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
+				<span><input type="button" value="{$lang->cmd_list}" onclick="location.href=current_url.setQuery('act','dispModuleAdminContent');return false;" /></span>
+			</th>
+		</tr>
+	</table>
+</form>

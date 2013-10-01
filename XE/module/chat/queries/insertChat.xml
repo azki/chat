@@ -1,0 +1,13 @@
+<query id="insertChat" action="insert">
+    <tables>
+        <table name="chat" />
+    </tables>
+    <columns>
+        <column name="chat_srl" var="chat_srl" filter="number" notnull="notnull" />
+		<column name="chat_key" var="chat_key" default="" notnull="notnull" minlength="1" maxlength="250" />
+        <column name="width" var="width" default="" />
+        <column name="height" var="height" default="" />
+        <column name="top" var="top" default="" />
+        <column name="left" var="left" default="" />
+    </columns>
+</query>

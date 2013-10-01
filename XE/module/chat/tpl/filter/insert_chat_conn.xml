@@ -1,0 +1,14 @@
+<filter name="insert_chat_conn" module="chat" act="procChatAdminInsert" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="chat_key" required="true" />
+		<node target="width" required="true" />
+		<node target="height" required="true" />
+		<node target="top" required="true" />
+		<node target="left" required="true" />
+    </form>
+    <parameter />
+    <response callback_func="completeInsertChatConn">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
