@@ -1,4 +1,6 @@
-/*global exports require */
+/*jslint regexp:false,nomen:false*/
+/*global exports,require,__dirname*/
+
 
 //디렉토리 __dirname 오류가나는 것을 막지못하겠다.. 어떻게해야하지...?
 
