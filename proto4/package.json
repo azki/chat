@@ -1,0 +1,25 @@
+{
+  "author": "stompesi",
+  "name": "join_from",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:azki/chat.git"
+  },
+  "dependencies": {
+    "express": "3.0.0-rc2",
+	"ejs" : "0.6.1",
+    "request": "2.27.0",
+    "emailjs" : "0.3.2"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
+
+

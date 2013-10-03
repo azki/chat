@@ -1,17 +1,17 @@
 /*jslint regexp:false,nomen:false*/
 /*global exports,require,__dirname*/
 
+
+//디렉토리 __dirname 오류가나는 것을 막지못하겠다.. 어떻게해야하지...?
+
 var express = require('express'), 
     routes = require('./routes'), 
     http = require('http'), 
     path = require('path'), 
     fs = require('fs'), 
-    app = express(), 
-    server = http.createServer(app), 
-    socket = require('./socket/socket.js');
-
-//소캣 초기화 
-socket.init(server);
+    app = express(),
+    db = require('./database/user.js'), 
+    server = http.createServer(app); 
 
 //express관련 정의
 app.set('views', __dirname + '/views'); 
@@ -36,17 +36,13 @@ app.configure('development', function () {
 app.get('/', routes.index);
 
 //채팅 접속
-app.get('/chat', routes.chat);
-app.get('/test', routes.test);
+app.post('/login', db.login, routes.login);
+app.post('/join', db.join, routes.join);
+app.post('/findPassword', db.findPassword, routes.findPassword);
 
-//아이디 확인
-app.get('/checkId', routes.checkId);
+app.get('/checkDuplicateEmail', db.checkDuplicateEmail, routes.checkDuplicateEmail);
 
-//방만들기 관련 
-app.get('/makeRoom', routes.makeRoom);
-app.get('/cancle', routes.roomChat);
-app.get('/make', routes.make);
-app.get('/joinRoom', routes.joinRoom);
+app.get('/aa', routes.aa);
 
 server.listen(3000, function () {
 	console.log("Express server listening on port 3000 ");
