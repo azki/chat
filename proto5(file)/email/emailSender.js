@@ -3,15 +3,15 @@
 var email = require('emailjs/email.js');
 
 var emailServer = email.server.connect({
-	user : "tempemailid01", 
-    password : "chat12345678", 
+	user : "memchat@azki.org", 
+    password : "apacot12", 
     host : "smtp.gmail.com", 
     ssl : true
 });
 
-exports.send = function (to, data) {
+exports.send = function (to, url) {
 	emailServer.send({
-		text : "안녕 하세요. chat 관리자 입니다.\n 이곳에 접속하여 비밀번호를 변경하시기 바랍니다  http://localshot:3000/changePassword=?" + data + " 입니다.",
+		text : "안녕 하세요. chat 관리자 입니다.\n 이곳에 접속하여 비밀번호를 변경하시기 바랍니다." + url + " 입니다.",
 		from : "<tempemailid01@gmail.com>",
 		to : to,
 		cc : "",

@@ -47,9 +47,11 @@ app.post('/join', routes.join);
 app.post('/findPassword', routes.findPassword);
 app.post('/getKey', routes.getKey);
 app.post('/saveKey', routes.saveKey);
+app.post('/savePassword', routes.savePassword);
 
 app.get('/checkDuplicateEmail', routes.checkDuplicateEmail);
 app.get('/logout', routes.logout);
+app.get('/changePassword', routes.changePassword);
 
 server.listen(3000, function () {
 	console.log("Express server listening on port 3000 ");

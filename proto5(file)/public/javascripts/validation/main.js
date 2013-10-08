@@ -16,9 +16,9 @@ var main = (function () {
 			$.post('/saveKey', userInfo, function (result) {
 				if (result.success) {
 					$('#keyContent').append('<tr><th>' + userInfo.domain + '</th><th>' + result.key + '</th><th></th> </tr>');
-					alert(result.massage);
+					alert(result.message);
 				} else {
-					alert(result.massage);
+					alert(result.message);
 				}
 
 			});

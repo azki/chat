@@ -8,7 +8,7 @@ var validation = (function () {
 				if (result.success) {
 					location.href = '/';
 				} else {
-					alert(result.massage);
+					alert(result.message);
 				}
 			});
 		}
@@ -28,7 +28,7 @@ var validation = (function () {
 			var userInfo = $(form).serialize();
 			
 			$.post('/findPassword', userInfo, function (result) {
-				alert(result);
+				alert(result.message);
 			});
 		}
 		

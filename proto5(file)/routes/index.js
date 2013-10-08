@@ -23,12 +23,12 @@ exports.login = function (req, res) {
 		userInfo, 
 		result = {
 			success : false,
-			massage : ''
+			message : ''
 		};
 
 	fs.readFile(path.memberPath + fileName, 'utf8', function (err, data) {
 		if (err) {
-			result.massage = "로그인에 실패하였습니다 확인하여 주시기 바랍니다.";
+			result.message = "로그인에 실패하였습니다 확인하여 주시기 바랍니다.";
 			res.send(result);
 		} else {
 			userInfo = JSON.parse(data);
@@ -61,31 +61,76 @@ exports.join = function (req, res) {
 					res.send(result);
 				} else {
 					result.success = true;
+					result.message = '가입을 완료했습니다.';
 					registSessionLoginInfo(req, userInfo.email);
 					res.send(result);
 				}
 			});
 		} else {
 			result.message = '이미 존재하는 email입니다.';
-			result.success = false;
 			res.send(result);
 		}
 	});
 };
+exports.changePassword = function (req, res) {
+	var key = req.query.key;
+	req.session.key = key;
+	res.render('changePassword/index.html');
+};
+
+exports.savePassword = function (req, res) {
+	var fileName = req.body.key + '.json', 
+		password = req.body.password,
+		userInfo,
+		data,
+		result = {
+			message : '',
+			success : false
+		};
+	
+	delete req.session.key;
+	
+	fs.readFile(path.memberPath + fileName, 'utf8', function (err, data) {
+		if (err) {
+			result.message = '비밀번호 변경에 실패했습니다. 다시시도해주시기 바랍니다.';
+			res.send(result);
+			return;
+		} else {
+			userInfo = JSON.parse(data);
+			userInfo.password = crypto.createHash('md5').update(password).digest('hex');
+			fs.writeFile(path.memberPath + fileName, JSON.stringify(userInfo), function (err) {
+				if (err) {
+					result.message = '비밀번호 변경에 실패했습니다. 다시시도해주시기 바랍니다.';
+					console.log(err);
+					res.send(result);
+					return;
+				} else {
+					console.log('member에 키등록');
+					result.message = '비밀번호 변경을 완료했습니다.';
+					result.success = true;
+					res.send(result);
+					return;
+				}
+			});
+		}
+	});
+};
+
 
 exports.findPassword = function (req, res) {
-	var fileName = crypto.createHash('md5').update(req.body.email).digest('hex') + ".json", 
+	var fileName = crypto.createHash('md5').update(req.body.email).digest('hex'), 
 		result = {
 			success : false,
 			message : ''
-		};
-
-	fs.readFile(path.memberPath + fileName, 'utf8', function (err, data) {
+		},
+		fullURL = req.protocol + "://" + req.get('host') + '/changePassword?key=' + fileName;
+	
+	fs.readFile(path.memberPath + fileName + ".json", 'utf8', function (err, data) {
 		if (err) {
 			result.message = '가입되지 않은 회원이거나 입력정보가 옳바르지 않습니다.';
 			res.send(result);
 		} else {
-			email.send(req.body.email, req.body.email);
+			email.send(req.body.email, fullURL);
 			result.success = true;
 			result.message = '회원님의 비밀번호를 email 로 전송하였습니다.';
 			res.send(result);
@@ -151,19 +196,19 @@ exports.saveKey = function (req, res) {
 		result  = {
 			key : '',
 			success : false,
-			massage : ''
+			message : ''
 		};
 
 	fs.readFile(path.memberPath + memberFile, 'utf8', function (err, data) {
 		if (err) {
-			result.massage = '존재하지 않는 사용자 입니다.';
+			result.message = '존재하지 않는 사용자 입니다.';
 			res.send(result);
 			return;
 		} else {
 			userInfo = JSON.parse(data);
 			for (var i in userInfo.keys) {
 				if (userInfo.keys[i] === key) {
-					result.massage = '중복되는 도메인입니다. 확인하여주시기 바랍니다.';
+					result.message = '중복되는 도메인입니다. 확인하여주시기 바랍니다.';
 					res.send(result);
 					return;
 				}
@@ -171,7 +216,7 @@ exports.saveKey = function (req, res) {
 			userInfo.keys.push(key);
 			fs.writeFile(path.memberPath + memberFile, JSON.stringify(userInfo), function (err) {
 				if (err) {
-					result.massage = '키등록에 실패하였습니다. 다시 시도해주시기 바랍니다.';
+					result.message = '키등록에 실패하였습니다. 다시 시도해주시기 바랍니다.';
 					console.log(err);
 					res.send(result);
 					return;
@@ -183,11 +228,11 @@ exports.saveKey = function (req, res) {
 			result.key = key;
 			fs.writeFile(path.keyPath + key + ".json", JSON.stringify(keyInfo), function (err) {
 				if (err) {
-					result.massage = '키등록에 실패하였습니다. 다시 시도해주시기 바랍니다.';
+					result.message = '키등록에 실패하였습니다. 다시 시도해주시기 바랍니다.';
 					console.log(err);
 					res.send(result);
 				} else {
-					result.massage = 'key 등록 완료 ';
+					result.message = 'key 등록 완료 ';
 					console.log('key 등록 완료 ');
 					res.send(result);
 				}
