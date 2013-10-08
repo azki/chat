@@ -1,0 +1,10 @@
+<filter name="insert_key" module="keyManager" act="procKeyManagerInsert" confirm_msg_code="confirm_submit">
+    <form>
+		<node target="domain" required="true" />
+    </form>
+    <parameter />
+    <response callback_func="completeKeyInsert">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

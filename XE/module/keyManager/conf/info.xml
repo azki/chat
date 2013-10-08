@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">key_manager</title>
+	<description xml:lang="ko">chat key 관리자</description>
+	<version>0.0.1</version>
+	<date>2013-10-4</date>
+	<category>service</category>
+	<author email_address="stompesi@gmail.com" link="http://gkswhdqls002.cafe24.com">
+		<name xml:lang="en">Stompesi</name>
+	</author>
+</module>

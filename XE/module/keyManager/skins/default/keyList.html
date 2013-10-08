@@ -1,0 +1,26 @@
+<table>
+	<tr>
+		<th> 발급 받은 key</th>
+		<th> 비교 </th> 
+	</tr>
+	
+	<!-- 기발급 관해서 -->
+</table>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_key)" >
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<table cellspacing="0" >
+		<tr>
+			<th scope="row">도메인<span>*</span></th><!-- 채팅 키 -->
+			<td>
+				<input type="text" name="domain" value="" size="50" />
+				<p>발급받을 홈페이지의 도메인을 입력하세요.</p>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" >
+				<span><input type="submit" value="키 발급받기" accesskey="s" /></span>
+			</th>
+		</tr>
+	</table>
+</form>

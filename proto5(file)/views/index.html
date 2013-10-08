@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<!-- Script Link -->
+		<title>Chat</title>
+		<!-- stylesheet Link -->
+		<link rel="stylesheet" type="text/css" href="/stylesheets/common.css" />
+		<!-- script Link -->
+		<script type="text/javascript" src="/javascripts/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="/javascripts/jquery-validation/jquery.validate.js"></script>
+		<script type="text/javascript" src="/javascripts/validation/main.js"></script>
+		<script type="text/javascript" src="/javascripts/validation/validation.js"></script>
+	</head>
+	<body>
+		<div>
+			<!-- 메뉴바  -->
+			<div id="nav">
+				<ul>
+					<li id="nav_login">
+						<a href="#">로그인</a>
+					</li>
+					<li id="nav_join">
+						<a href="#">회원가입</a>
+					</li>
+					<li id="nav_findPassword">
+						<a href="#">비밀번호찾기</a>
+					</li>
+				</ul>
+			</div>
+			<div id="content">
+				<!-- 로그인창  -->
+				
+				<div id="cont_login">
+					<? if( session.email ) { ?>
+						<div>
+							<h3> 발급받은 키값 </h3>
+							<table border="1" id="keyContent">
+								<tr>
+									<th>도메인</th>
+									<th>Key 값</th>
+									<th>비고 </th> 
+								</tr>
+								
+							</table>
+						</div>
+						<input type="hidden" id="email" value="<?= session.email ?>" />
+						<input type="text"placeholder="http://gkswhdqls002.cafe24.com" id="domain" size="50" />
+						<input type="button" value="키발급받기" id="getKey" />
+						<input type="button" value="로그아웃" id="logout" />
+					<? }else { ?>
+					<form id="check_login">
+						<div>
+							<label for="id">아이디</label>
+							<div>
+								<input type="text" name="email" placeholder="email">
+							</div>
+						</div>
+						<div>
+							<label for="password">비밀번호</label>
+							<div>
+								<input type="password" name="password" placeholder="Password">
+							</div>
+						</div>
+						<div>
+							<button type="submit" class="btn">
+								로그인
+							</button>
+						</div>
+					</form>
+					<? } ?>
+				</div>
+
+				<!--회원가입폼 		 -->
+				<div id="cont_join" class="hide">
+					<form id="check_join">
+						<div>
+							<fieldset>
+								<label for="joinFormEmail">email</label>
+								<div>
+									<input id="check_join_email" name="email" type="text" placeholder="ex)stompesi@gmail.com">
+								</div>
+								<label for="joinFormPassword">비밀번호</label>
+								<div>
+									<input id="check_join_password" name="password" type="password" placeholder="4글자 이상 입력하시오">
+								</div>
+								<label for="joinFormPasswordCheck">비밀번호 확인</label>
+								<div>
+									<input name="passwordCheck" type="password">
+								</div>
+							</fieldset>
+							<div align="center">
+								<input type="submit" class="btn" value="확인" />
+							</div>
+						</div>
+					</form>
+					<hr>
+				</div>
+				<!-- 비밀번호 찾기 		 -->
+				<div id="cont_findPassword" class="hide">
+					<form id="check_findPassword">
+						<fieldset>
+							<legend>
+								<span>비밀번호 찾기</span>
+							</legend>
+							<label for="email" >email</label>
+							<div>
+								<input name="email" type="text" placeholder="ex)stompesi@gmail.com">
+							</div>
+						</fieldset>
+						<div align="center">
+							<input type="submit" class="btn" value="확인" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		main.init();
+		validation.init();
+	</script>
+	<script type="text/javascript"> getKey('<?= session.email ?>');</script>
+</html>
+

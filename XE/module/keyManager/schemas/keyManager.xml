@@ -1,0 +1,7 @@
+<table name="keyManager">
+	<column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
+	<column name="keyManager_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="keyManager_key" type="varchar" size="200" />
+	<column name="domain" type="varchar" size="250" />
+	<column name="user_id" type="varchar" size="80" />
+</table>

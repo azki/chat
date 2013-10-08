@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants>
+    </grants>
+    <permissions>
+    </permissions>
+    <actions>
+    	<!-- 사용자의 발급 받은 key 리스트 보여주기   -->
+        <action name="dispKeyManagerContentList" type="view" index="true" />
+       
+        <!-- 사용자의 발급 key 저장 하기    -->
+        <action name="procKeyManagerInsert" type="controller"/>
+    </actions>
+</module>
